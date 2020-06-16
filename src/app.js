@@ -36,7 +36,7 @@ app.put("/repositories/:id", (request, response) => {
   const repositoryResultIndex = repositories.findIndex((repository) => repository.id === id);
 
   if (repositoryResultIndex < 0)
-    return response.status(404).send({ message: 'Repository was not found' });
+    return response.status(400).send({ message: 'Repository was not found' });
 
   const { id: oldId, likes: oldLikes } = repositories[repositoryResultIndex];
 
@@ -56,11 +56,11 @@ app.delete("/repositories/:id", (request, response) => {
   const repositoryResultIndex = repositories.findIndex((repository) => repository.id === id);
 
   if (repositoryResultIndex < 0)
-    return response.status(404).send({ message: 'Repository was not found' });
+    return response.status(400).send({ message: 'Repository was not found' });
 
   repositories.splice(repositoryResultIndex, 1);
 
-  return response.status(200).send({ message: 'Repository was successfully deleted' });
+  return response.status(204).send();
 });
 
 // Add new like to repository
@@ -70,7 +70,7 @@ app.post("/repositories/:id/like", (request, response) => {
   const repositoryResultIndex = repositories.findIndex((repository) => repository.id === id);
 
   if (repositoryResultIndex < 0)
-    return response.status(404).send({ message: 'Repository was not found' });
+    return response.status(400).send({ message: 'Repository was not found' });
 
   const { title, url, techs, likes } = repositories[repositoryResultIndex];
   const newLikes = parseInt(likes) + 1;
